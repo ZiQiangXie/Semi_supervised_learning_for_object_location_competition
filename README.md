@@ -8,6 +8,8 @@
 
 模型结果：https://pan.baidu.com/s/1m4kHFZnF-5WU51DFhzvMQA， a3h7
 
+aistudio地址：https://aistudio.baidu.com/aistudio/projectdetail/2173012
+
 ## **1. 简介**
 
 任务：比赛要求基于少量有标注数据训练模型，使分类网络具有目标定位能力，实现半监督目标定位任务。每一位参赛选手仅可以使用ImageNet大型视觉识别竞赛(ILSVRC)的训练集图像作为训练数据，其中有标注的训练数据仅可以使用大赛组委会提供的像素级标注数据。
