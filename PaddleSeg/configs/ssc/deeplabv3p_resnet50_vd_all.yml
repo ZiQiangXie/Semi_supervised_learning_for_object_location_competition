@@ -1,0 +1,64 @@
+batch_size: 16
+iters: 200000
+
+train_dataset:
+  type: Dataset
+  dataset_root: /home/aistudio/work
+  train_path: /home/aistudio/work/train_all.txt
+  num_classes: 2
+  transforms:
+    - type: RandomHorizontalFlip
+    - type: RandomVerticalFlip
+    - type: RandomDistort
+      brightness_range: 0.4
+      contrast_range: 0.4
+      saturation_range: 0.4
+    - type: Resize
+      target_size: [256, 256]
+    - type: Normalize
+  mode: train
+
+val_dataset:
+  type: Dataset
+  dataset_root: /home/aistudio/work
+  val_path: /home/aistudio/work/val.txt
+  num_classes: 2
+  transforms:
+    - type: Resize
+      target_size: [256, 256]
+    - type: Normalize
+  mode: val
+
+
+model:
+  type: DeepLabV3P
+  num_classes: 2
+  backbone:
+    type: ResNet50_vd
+    output_stride: 8
+    multi_grid: [1, 2, 4]
+    pretrained: null
+  backbone_indices: [0, 3]
+  aspp_ratios: [1, 12, 24, 36]
+  aspp_out_channels: 256
+  align_corners: False
+  pretrained: https://bj.bcebos.com/paddleseg/dygraph/pascal_voc12/deeplabv3p_resnet50_os8_voc12aug_512x512_40k/model.pdparams
+
+optimizer:
+  type: sgd
+  momentum: 0.9
+  weight_decay: 4.0e-5
+
+lr_scheduler:
+  type: PolynomialDecay
+  learning_rate: 0.01
+  end_lr: 0
+  power: 0.9
+
+loss:
+  types:
+    - type: MixedLoss
+      losses:
+        - type: CrossEntropyLoss
+      coef: [1.0]
+  coef: [1]
